@@ -42,13 +42,14 @@ This means configuration can be applied in different ways:
 
 The required configuration values are documented in the table below.
 
-| Key (`appsettings.json`) | Key (Environment) | Type | Description | Default | Required |
-|--------------------------|-------------------|------|-------------|---------|----------|
-|  DeepL:AuthKey           | DeepL__AuthKey | string | Your DeepL API auth key | _empty_ | true if DeepL is used |
-|  Telegram:ApiKey         | Telegram__ApiKey | string | Your Telegram bot's API key | _empty_ | true if Telegram is used |
-|  Telegram:AllowedUsers   | Telegram__AllowedUsers | array of long | List of Telegram user IDs allowed to use the bot | _empty_ | true if Telegram is used |
-|  Worker:Receivers        | Worker__Receivers | array of string | List active receivers (instant messengers) | `["Telegram"]` | true |
-|  Worker:Translator       | Worker__Translator | string | Translation API to be used | `"DeepL"` | true |
+| Key (`appsettings.json`)        | Key (Environment) | Type | Description | Default | Required                 |
+|---------------------------------|-------------------|------|-------------|---------|--------------------------|
+| DeepL:AuthKey                   | DeepL__AuthKey | string | Your DeepL API auth key | _empty_ | true if DeepL is used    |
+| DeepL:DefaultTargetLanguageCode | DeepL__DefaultTargetLanguageCode | string | The target language for DeepL translations | `en-GB` | false |
+| Telegram:ApiKey                 | Telegram__ApiKey | string | Your Telegram bot's API key | _empty_ | true if Telegram is used |
+| Telegram:AllowedUsers           | Telegram__AllowedUsers | array of long | List of Telegram user IDs allowed to use the bot | _empty_ | true if Telegram is used |
+| Worker:Receivers                | Worker__Receivers | array of string | List active receivers (instant messengers) | `["Telegram"]` | true                     |
+| Worker:Translator               | Worker__Translator | string | Translation API to be used | `"DeepL"` | true                     |
 
 ### Notes regarding configuration via Environment variables
 
@@ -61,6 +62,11 @@ Telegram__AllowedUsers__1=4711
 Telegram__AllowedUsers__2=420420
 ```
 
+## See also
+
+- [DeepL API Signup](https://www.deepl.com/pro-api) - Sign up for DeepL API access here
+- [DeepL API Docs](https://www.deepl.com/docs-api/translating-text/request/) - Here you can find a list of target language codes supported by DeepL
+- [Telegram Botfather](https://t.me/botfather) - Register your Telegram bot here
 
 ## Contributing
 
