@@ -10,16 +10,15 @@ jobs:
       matrix: 
         target_runtime: [win-x64, linux-x64, linux-arm, linux-arm64]
         archive: [zip, tar]
-        extension: [zip, tar.gz]
         exclude:
           - target_runtime: win-x64
             archive: tar
-          - target_runtime: [linux-x64, linux-arm, linux-arm64]
+          - target_runtime: linux-x64
             archive: zip
-          - archive: zip
-            extension: tar.gz
-          - archive: tar
-            extension: zip
+          - target_runtime: linux-arm
+            archive: zip
+          - target_runtime: linux-arm64
+            archive: zip
 
     runs-on: ubuntu-latest
     
@@ -38,12 +37,14 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -r ${{ matrix.target_runtime }} --self-contained true -o ${{ github.workspace }}/Build/BabelBot-${{ matrix.target_runtime }}
     - name: Package
-      uses: thedoctor0/zip-release@master
-      with:
-        type: ${{ matrix.archive }}
-        path: ${{ github.workspace }}/Build
-        filename: ${{ github.workspace}}/BabelBot-${{ matrix.target_runtime }}.${{ matrix.extension }}
+      if: matrix.archive == 'zip'
+      run: zip -r ${{ github.workspace }}/BabelBot_${{ matrix.target_runtime }}.zip BabelBot-${{ matrix.target_runtime }}
+      working-directory: ${{ github.workspace }}/Build
+    - name: Package
+      if: matrix.archive == 'tar'
+      run: tar -czf ${{ github.workspace }}/BabelBot_${{ matrix.target_runtime }}.tar.gz BabelBot-${{ matrix.target_runtime }}
+      working-directory: ${{ github.workspace }}/Build
     - name: Upload package
       uses: actions/upload-artifact@v2
       with:
-        path: ${{ github.workspace}}/BabelBot-${{ matrix.target_runtime }}.${{ matrix.extension }}
+        path: BabelBot_*.*
