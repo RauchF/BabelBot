@@ -1,6 +1,7 @@
 using System.Reflection;
 using BabelBot.Shared;
 using BabelBot.Worker.Factory;
+using Microsoft.Extensions.Options;
 
 namespace BabelBot.Worker;
 
@@ -12,13 +13,10 @@ public class Worker : BackgroundService
 
     private readonly WorkerOptions _options;
 
-    public Worker(ILogger<Worker> logger, IConfiguration configuration, ReceiverFactory receiverFactory)
+    public Worker(ILogger<Worker> logger, IOptions<WorkerOptions> options, ReceiverFactory receiverFactory)
     {
         _logger = logger;
-
-        _options = new WorkerOptions();
-        configuration.GetSection(WorkerOptions.SectionKey).Bind(_options);
-
+        _options = options.Value;
         _receivers = receiverFactory.CreateAllConfigured();
     }
     
