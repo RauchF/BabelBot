@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-BabelBot.Worker-07F9A009-68BB-4E94-ACEB-3AFB77121522</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BabelBot.Receiver.Telegram\BabelBot.Receiver.Telegram.csproj"/>
+        <ProjectReference Include="..\BabelBot.Shared\BabelBot.Shared.csproj"/>
+        <ProjectReference Include="..\BabelBot.Translator.DeepL\BabelBot.Translator.DeepL.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Extensions"/>
+    </ItemGroup>
+</Project>
