@@ -2,6 +2,7 @@
 
 A simple chat bot connecting Instant Messaging and Translation APIs
 
+[Guide to Getting Started](https://felixrau.ch/babelbot/)
 
 ## Installation
 
