@@ -28,7 +28,6 @@ A (possibly incomplete, please report if you had to install more) list of prereq
 
 - .NET Core 6.0 SDK
 
-
 ## Configuration
 
 BabelBot uses the [configuration facilities](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration) provided by .NET Core.
@@ -77,6 +76,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for ways to get started.
 
 Please adhere to this project's [code of conduct](CODE_OF_CONDUCT.md).
 
+## Acknowledgements
+
+Massive thanks to (amongst many more) the following projects for making this possible:
+
+- [Telegram.Bot](https://github.com/TelegramBots/telegram.bot) for providing a really nice MIT-licensed API library for .NET
+- [DeepL](https://deepl.com) for creating a fantastic translation service and providing a [.NET library](https://www.nuget.org/packages/DeepL.net/) for it
 
 ## Support
 
@@ -87,7 +92,6 @@ If you believe you have found an issue (very likely), please issue a bug report 
 In very serious cases, you can send a mail to babelbot@kaputty.de and I'll try to get back to you.
 
 Please note that I do not provide support for misconfigurations or missing installed dependencies.
-
 
 ## License
 
