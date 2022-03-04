@@ -58,7 +58,7 @@ public class TelegramReceiver : IReceiver
 
         _logger.LogDebug("Received message update {Update} from {From} in chat {Chat}", update.Id, update.Message.From, chatId);
 
-        if (!_options.AllowedUsers.Contains(update.Message.From!.Id))
+        if (_options.OnlyReactToAllowedUsers && !_options.AllowedUsers.Contains(update.Message.From!.Id))
         {
             _logger.LogDebug("Ignored message update {Update} because sender is not in the list of AllowedUsers", update.Id);
             return;

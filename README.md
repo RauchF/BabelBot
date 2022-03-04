@@ -54,14 +54,15 @@ This means configuration can be applied in different ways:
 
 The required configuration values are documented in the table below.
 
-| Key (`appsettings.json`)        | Key (Environment)                | Type            | Description                                      | Default        | Required                 |
-| ------------------------------- | -------------------------------- | --------------- | ------------------------------------------------ | -------------- | ------------------------ |
-| DeepL:AuthKey                   | DeepL__AuthKey                   | string          | Your DeepL API auth key                          | _empty_        | true if DeepL is used    |
-| DeepL:DefaultTargetLanguageCode | DeepL__DefaultTargetLanguageCode | string          | The target language for DeepL translations       | `en-GB`        | false                    |
-| Telegram:ApiKey                 | Telegram__ApiKey                 | string          | Your Telegram bot's API key                      | _empty_        | true if Telegram is used |
-| Telegram:AllowedUsers           | Telegram__AllowedUsers           | array of long   | List of Telegram user IDs allowed to use the bot | _empty_        | true if Telegram is used |
-| Worker:Receivers                | Worker__Receivers                | array of string | List active receivers (instant messengers)       | `["Telegram"]` | true                     |
-| Worker:Translator               | Worker__Translator               | string          | Translation API to be used                       | `"DeepL"`      | true                     |
+| Key (`appsettings.json`)          | Key (Environment)                 | Type            | Description                                      | Default        | Required                                  |
+|-----------------------------------|-----------------------------------| --------------- |--------------------------------------------------| -------------- |-------------------------------------------|
+| DeepL:AuthKey                     | DeepL__AuthKey                    | string          | Your DeepL API auth key                          | _empty_        | true if DeepL is used                     |
+| DeepL:DefaultTargetLanguageCode   | DeepL__DefaultTargetLanguageCode  | string          | The target language for DeepL translations       | `en-GB`        | false                                     |
+| Telegram:ApiKey                   | Telegram__ApiKey                  | string          | Your Telegram bot's API key                      | _empty_        | true if Telegram is used                  |
+| Telegram:AllowedUsers             | Telegram__AllowedUsers            | array of long   | List of Telegram user IDs allowed to use the bot | _empty_        | true if OnlyReactToAllowedUsers is `true` |
+| Telegram:OnlyReactToAllowedUsers  | Telegram__OnlyReactToAllowedUsers | boolean         | When `true`, the bot ignores all unknown users   | `true`         | false                                     |
+| Worker:Receivers                  | Worker__Receivers                 | array of string | List active receivers (instant messengers)       | `["Telegram"]` | true                                      |
+| Worker:Translator                 | Worker__Translator                | string          | Translation API to be used                       | `"DeepL"`      | true                                      |
 
 ### Notes regarding configuration via Environment variables
 
