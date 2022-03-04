@@ -1,0 +1,7 @@
+apiVersion: v2
+name: babelbot
+description: A DeepL-powered Telegram bot that automatically translates messages from approved users.
+
+type: application
+version: 1.0.0
+appVersion: "0.0.1"
