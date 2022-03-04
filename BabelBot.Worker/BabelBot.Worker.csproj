@@ -19,8 +19,4 @@
         <ProjectReference Include="..\BabelBot.Shared\BabelBot.Shared.csproj"/>
         <ProjectReference Include="..\BabelBot.Translator.DeepL\BabelBot.Translator.DeepL.csproj"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Extensions"/>
-    </ItemGroup>
 </Project>
