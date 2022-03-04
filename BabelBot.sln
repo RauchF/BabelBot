@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Worker", "BabelBot.Worker\BabelBot.Worker.csproj", "{62EEFF90-B342-4799-BC97-B4F5F495DEB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Worker", "src\BabelBot.Worker\BabelBot.Worker.csproj", "{62EEFF90-B342-4799-BC97-B4F5F495DEB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Shared", "BabelBot.Shared\BabelBot.Shared.csproj", "{6C07F17F-C260-4C27-B1C8-A4CF24730303}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Shared", "src\BabelBot.Shared\BabelBot.Shared.csproj", "{6C07F17F-C260-4C27-B1C8-A4CF24730303}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Translator.DeepL", "BabelBot.Translator.DeepL\BabelBot.Translator.DeepL.csproj", "{FB871688-7485-424C-8626-BFDB04027AC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Translator.DeepL", "src\BabelBot.Translator.DeepL\BabelBot.Translator.DeepL.csproj", "{FB871688-7485-424C-8626-BFDB04027AC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Receiver.Telegram", "BabelBot.Receiver.Telegram\BabelBot.Receiver.Telegram.csproj", "{72561E09-1DE7-4692-9F1D-73190DF2E657}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Receiver.Telegram", "src\BabelBot.Receiver.Telegram\BabelBot.Receiver.Telegram.csproj", "{72561E09-1DE7-4692-9F1D-73190DF2E657}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
