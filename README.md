@@ -6,7 +6,7 @@ A simple chat bot connecting Instant Messaging and Translation APIs
 
 ## Installation
 
-You can either use the precompiled packages or compile BabelBot yourself.
+You can either use the precompiled packages, compile BabelBot yourself or use the provided Dockerfile.
 
 ### Precompiled packages
 
@@ -28,6 +28,18 @@ A (possibly incomplete, please report if you had to install more) list of prereq
 
 - .NET Core 6.0 SDK
 
+### Build Docker image
+
+1. Make sure you have all [prerequisites](#Prerequisites) installed.
+2. Download and extract an archive of your desired version (or development branch), or `git clone` the repository into a path of your choice.
+3. Build an image: `docker build -t babelbot:local .`
+   1. You can freely choose the image name and tag.
+4. Run BabelBot in Docker: `docker run -e Telegram__ApiKey='<api key>' -e Telegram__AllowedUsers__1='<id>' -e DeepL__AuthKey='<auth key>' babelbot:local`
+
+#### Prerequisites
+
+- Docker v20+
+
 ## Configuration
 
 BabelBot uses the [configuration facilities](https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration) provided by .NET Core.
@@ -42,14 +54,14 @@ This means configuration can be applied in different ways:
 
 The required configuration values are documented in the table below.
 
-| Key (`appsettings.json`)        | Key (Environment) | Type | Description | Default | Required                 |
-|---------------------------------|-------------------|------|-------------|---------|--------------------------|
-| DeepL:AuthKey                   | DeepL__AuthKey | string | Your DeepL API auth key | _empty_ | true if DeepL is used    |
-| DeepL:DefaultTargetLanguageCode | DeepL__DefaultTargetLanguageCode | string | The target language for DeepL translations | `en-GB` | false |
-| Telegram:ApiKey                 | Telegram__ApiKey | string | Your Telegram bot's API key | _empty_ | true if Telegram is used |
-| Telegram:AllowedUsers           | Telegram__AllowedUsers | array of long | List of Telegram user IDs allowed to use the bot | _empty_ | true if Telegram is used |
-| Worker:Receivers                | Worker__Receivers | array of string | List active receivers (instant messengers) | `["Telegram"]` | true                     |
-| Worker:Translator               | Worker__Translator | string | Translation API to be used | `"DeepL"` | true                     |
+| Key (`appsettings.json`)        | Key (Environment)                | Type            | Description                                      | Default        | Required                 |
+| ------------------------------- | -------------------------------- | --------------- | ------------------------------------------------ | -------------- | ------------------------ |
+| DeepL:AuthKey                   | DeepL__AuthKey                   | string          | Your DeepL API auth key                          | _empty_        | true if DeepL is used    |
+| DeepL:DefaultTargetLanguageCode | DeepL__DefaultTargetLanguageCode | string          | The target language for DeepL translations       | `en-GB`        | false                    |
+| Telegram:ApiKey                 | Telegram__ApiKey                 | string          | Your Telegram bot's API key                      | _empty_        | true if Telegram is used |
+| Telegram:AllowedUsers           | Telegram__AllowedUsers           | array of long   | List of Telegram user IDs allowed to use the bot | _empty_        | true if Telegram is used |
+| Worker:Receivers                | Worker__Receivers                | array of string | List active receivers (instant messengers)       | `["Telegram"]` | true                     |
+| Worker:Translator               | Worker__Translator               | string          | Translation API to be used                       | `"DeepL"`      | true                     |
 
 ### Notes regarding configuration via Environment variables
 
