@@ -31,24 +31,24 @@ A (possibly incomplete, please report if you had to install more) list of prereq
 
 ### Build Docker image
 
-1. Make sure you have all [prerequisites](#Prerequisites) installed.
+1. Make sure you have all [prerequisites](#docker-prerequisites) installed.
 2. Download and extract an archive of your desired version (or development branch), or `git clone` the repository into a path of your choice.
 3. Build an image: `docker build -t babelbot:local .`
    1. You can freely choose the image name and tag.
 4. Run BabelBot in Docker: `docker run -e Telegram__ApiKey='<api key>' -e Telegram__AllowedUsers__1='<id>' -e DeepL__AuthKey='<auth key>' babelbot:local`
 
-#### Prerequisites
+#### Docker Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) v20+
 
 ### Deploy on Kubernetes using Helm
 
-1. Make sure you have all [prerequisites](#Prerequisites) installed.
+1. Make sure you have all [prerequisites](#helm-prerequisites) installed.
 2. Download and extract an archive of your desired version (or development branch), or `git clone` the repository into a path of your choice.
 3. Create a `babelbot-values.yaml` ([details about which values to provide](#./helm/README.md))
 4. Run the following command: `helm upgrade --install -n babelbot --create-namespace babelbot ./helm -f ./babelbot-values.yaml`
 
-#### Prerequisites
+#### Helm Prerequisites
 
 - [Helm](https://helm.sh/docs/intro/install/) v3
 
@@ -61,7 +61,7 @@ This means configuration can be applied in different ways:
 
 - Changing the values inside `appsettings.json`
 - Setting environment variables (useful for cloud deployments)
-- Probably others I dunno
+- [Using user secrets](#using-user-secrets-during-development) (only during development)
 
 ### Available configuration parameters
 
