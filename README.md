@@ -88,6 +88,18 @@ Telegram__AllowedUsers__1=4711
 Telegram__AllowedUsers__2=420420
 ```
 
+### Using user secrets during development
+
+As long as the program is running in the Development environment, you can use the [Secret Manager](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows#secret-manager) built into dotnet.
+
+Set your API tokens (and other options) with the `dotnet` command, like this:
+
+```
+dotnet user-secrets set "DeepL:AuthKey" "1234-5678"
+```
+
+They will persist through checkouts and are applied *after* `appsettings.json` and environment variables.
+
 ## See also
 
 - [DeepL API Signup](https://www.deepl.com/pro-api) - Sign up for DeepL API access here
