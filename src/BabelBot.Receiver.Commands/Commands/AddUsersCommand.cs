@@ -31,7 +31,7 @@ public class AddUsersCommand : Command
 
         return Task.FromResult(new CommandResult()
         {
-            SuccessMessage = $"The following ids were successfully added: {string.Join(", ", ids)}"
+            SuccessMessage = $"The following ids can now receive translations: {string.Join(", ", ids)}"
         });
     }
 }

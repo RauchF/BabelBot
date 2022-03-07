@@ -42,7 +42,7 @@ public class DeleteUsersCommand : Command
 
         return Task.FromResult(new CommandResult()
         {
-            SuccessMessage = $"The following ids were successfully deleted: {string.Join(", ", ids)}"
+            SuccessMessage = $"The following ids will no longer receive translations: {string.Join(", ", ids)}"
         });
     }
 }
