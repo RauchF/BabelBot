@@ -25,6 +25,7 @@ public class TestCommand : Command
     }
 
     public override string Keyword => "test";
+    public override string Description => string.Empty;
 
     public override IEnumerable<UserRole> AllowedRoles => AllowedRolesForTest;
 

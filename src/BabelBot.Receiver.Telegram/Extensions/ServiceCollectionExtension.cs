@@ -11,8 +11,9 @@ public static class ServiceCollectionExtension
 {
     public static void AddTelegramReceiver(this IServiceCollection collection, IConfiguration configurationSection)
     {
-        collection.AddSingleton<TelegramReceiver>();
+        collection.AddSingleton<ICommandRegistrator, CommandRegistrator>();
         collection.AddSingleton<IMessenger, TelegramMessenger>();
+        collection.AddSingleton<TelegramReceiver>();
         collection.AddSingleton<ITelegramBotClient, TelegramBotClient>((services) =>
             new TelegramBotClient(services.GetService<IOptions<TelegramOptions>>()!.Value.ApiKey));
 

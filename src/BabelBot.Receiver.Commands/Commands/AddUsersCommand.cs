@@ -12,6 +12,8 @@ public class AddUsersCommand : Command
     }
 
     public override string Keyword => "addusers";
+    public override string Description =>
+        @$"Add one or more users to the list of users BabelBot translates for: ""/{Keyword} <id1> <id2>"".";
 
     public override IEnumerable<UserRole> AllowedRoles => new[] { UserRole.Superuser };
 

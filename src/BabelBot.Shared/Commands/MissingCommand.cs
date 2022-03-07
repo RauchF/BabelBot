@@ -9,6 +9,7 @@ namespace BabelBot.Shared.Commands
     public class MissingCommand : ICommand
     {
         public string Keyword { get; }
+        public string Description => string.Empty;
 
         public bool IsDefault => false;
 

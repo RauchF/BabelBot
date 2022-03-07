@@ -18,6 +18,7 @@ public abstract class Command : ICommand
     }
     public virtual bool IsDefault { get; } = false;
     public abstract string Keyword { get; }
+    public abstract string Description { get; }
     public abstract IEnumerable<UserRole> AllowedRoles { get; }
 
     public Task<CommandResult> Run(ReceivedMessage message, CancellationToken cancellationToken)

@@ -21,6 +21,8 @@ public class DeleteUsersCommand : Command
     }
 
     public override string Keyword => "deleteusers";
+    public override string Description =>
+        $@"Remove one or more users from the list of users BabelBot translates for: ""/{Keyword} <id1> <id2>"".";
 
     public override IEnumerable<UserRole> AllowedRoles => new[] { UserRole.Superuser };
 
