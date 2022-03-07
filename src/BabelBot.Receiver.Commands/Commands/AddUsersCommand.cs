@@ -1,17 +1,19 @@
 using BabelBot.Shared.Commands;
 using BabelBot.Shared.Messenger;
 using BabelBot.Shared.Storage;
+using Microsoft.Extensions.Logging;
 
 namespace BabelBot.Receiver.Commands;
 
 public class AddUsersCommand : Command
 {
+    public AddUsersCommand(ILogger<AddUsersCommand> logger, IUsers users) : base(logger, users)
+    {
+    }
+
     public override string Keyword => "addusers";
 
-    private IUsers _users { get; }
-
-    public AddUsersCommand(IUsers users) => _users = users;
-
+    public override IEnumerable<UserRole> AllowedRoles => new[] { UserRole.Superuser };
 
     public override Task<CommandResult> Run(ReceivedMessage message, IEnumerable<string> arguments, CancellationToken _)
     {
@@ -25,7 +27,7 @@ public class AddUsersCommand : Command
                 new CommandResult(@$"Please provide at least one Telegram user id: ""/{Keyword} <id1> [...<idN>]"" "));
         }
 
-        _users.AddUsers(ids);
+        _users.AddTranslationUsers(ids);
 
         return Task.FromResult(new CommandResult()
         {
