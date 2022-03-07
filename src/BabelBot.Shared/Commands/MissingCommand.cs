@@ -16,7 +16,7 @@ namespace BabelBot.Shared.Commands
             Keyword = keyword;
         }
 
-        public Task<CommandResult> Run(CancellationToken _token, ReceivedMessage _message)
+        public Task<CommandResult> Run(ReceivedMessage _message, CancellationToken _token)
         {
             throw new NotImplementedException();
         }

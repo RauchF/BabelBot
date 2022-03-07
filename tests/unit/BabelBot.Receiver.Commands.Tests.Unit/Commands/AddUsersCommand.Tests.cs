@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,8 +28,8 @@ public class AddUsersCommandTests
     public async Task Run_WithoutIds_ReturnsError()
     {
         // Act
-        var message = new ReceivedMessage { Text = "" };
-        var result = await _command.Run(new CancellationToken(), message);
+        var message = new ReceivedMessage { };
+        var result = await _command.Run(message, Array.Empty<string>(), new CancellationToken());
 
         // Assert
         Assert.IsTrue(result.HasError);
@@ -37,12 +39,12 @@ public class AddUsersCommandTests
     public async Task Run_WithIds_SavesIdsAndReturnsSuccessMessage()
     {
         // Act
-        var message = new ReceivedMessage { Text = "1 2 3" };
-        var result = await _command.Run(new CancellationToken(), message);
+        var message = new ReceivedMessage { };
+        var result = await _command.Run(message, new[] { "1", "2", "3" }, new CancellationToken());
 
         // Assert
         var expectedIds = new[] { 1L, 2L, 3L };
-        _users.Received(1).AddUsers(Arg.Is<long[]>(ids => !ids.Except(expectedIds).Any()));
+        _users.Received(1).AddUsers(Arg.Is<IEnumerable<long>>(ids => !ids.Except(expectedIds).Any()));
         Assert.IsTrue(result.Success);
     }
 }
