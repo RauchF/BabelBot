@@ -1,5 +1,5 @@
 using BabelBot.Receiver.Telegram;
-using BabelBot.Shared;
+using BabelBot.Shared.Messenger;
 using Microsoft.Extensions.Options;
 
 namespace BabelBot.Worker.Factory;

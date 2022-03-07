@@ -1,4 +1,4 @@
-﻿using BabelBot.Shared;
+﻿using BabelBot.Shared.Translation;
 using DeepL;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -36,7 +36,7 @@ public class DeepLTranslator : ITranslator
     {
         return TranslateAsync(
             text,
-            new TranslationContext {TargetLanguage = _options.DefaultTargetLanguageCode},
+            new TranslationContext { TargetLanguage = _options.DefaultTargetLanguageCode },
             cancellationToken);
     }
 }

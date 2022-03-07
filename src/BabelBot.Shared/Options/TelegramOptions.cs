@@ -1,6 +1,6 @@
-using BabelBot.Shared;
+using BabelBot.Shared.Messenger;
 
-namespace BabelBot.Receiver.Telegram;
+namespace BabelBot.Shared.Options;
 
 public class TelegramOptions : IReceiverSettings
 {

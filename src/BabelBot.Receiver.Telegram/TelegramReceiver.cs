@@ -1,4 +1,7 @@
-﻿using BabelBot.Shared;
+﻿using BabelBot.Shared.Commands;
+using BabelBot.Shared.Messenger;
+using BabelBot.Shared.Options;
+using BabelBot.Shared.Translation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
@@ -13,23 +16,30 @@ public class TelegramReceiver : IReceiver
     private readonly ILogger<TelegramReceiver> _logger;
     private readonly ITranslator _translator;
     private readonly TelegramOptions _options;
-    private readonly TelegramBotClient _botClient;
+    private readonly ITelegramBotClient _botClient;
+    private readonly ICommandFactory _commandFactory;
 
-    public TelegramReceiver(ILogger<TelegramReceiver> logger, IOptions<TelegramOptions> options, ITranslator translator)
+    public TelegramReceiver(
+        ILogger<TelegramReceiver> logger,
+        IOptions<TelegramOptions> options,
+        ITranslator translator,
+        ITelegramBotClient botClient,
+        ICommandFactory commandFactory)
     {
         _logger = logger;
         _translator = translator;
         _options = options.Value;
-        _botClient = new TelegramBotClient(_options.ApiKey);
+        _botClient = botClient;
+        _commandFactory = commandFactory;
     }
 
     public Task Start(CancellationToken cts)
     {
-        _botClient.StartReceiving(HandleUpdateAsync, HandleErrorAsync, null, cts);
-        
+        _botClient.StartReceiving(HandleUpdateAsync, HandleErrorAsync, cancellationToken: cts);
+
         return Task.CompletedTask;
     }
-    
+
     private async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
         if (update.Type != UpdateType.Message)
@@ -52,9 +62,12 @@ public class TelegramReceiver : IReceiver
 
         var chatId = update.Message.Chat.Id;
         var sourceText = update.Message.Text;
+        var messageId = update.Message.MessageId;
 
         if (sourceText is null)
+        {
             return;
+        }
 
         _logger.LogDebug("Received message update {Update} from {From} in chat {Chat}", update.Id, update.Message.From, chatId);
 
@@ -64,38 +77,45 @@ public class TelegramReceiver : IReceiver
             return;
         }
 
-        var translatedText = await _translator.TranslateAsync(sourceText, cancellationToken);
-
-        foreach (var part in SplitTranslationResult(translatedText))
+        var command = _commandFactory.GetCommand(sourceText);
+        if (command is MissingCommand)
         {
-            await botClient.SendTextMessageAsync(
-                chatId: chatId, 
-                text: part,
-                replyToMessageId: update.Message.MessageId,
+            _logger.LogDebug($"Error running command \"{command.Keyword}\": Command not implemented");
+            await _botClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: $"Unknown command: \"{command.Keyword}\"",
+                parseMode: ParseMode.Markdown,
+                replyToMessageId: messageId,
+                allowSendingWithoutReply: true,
                 cancellationToken: cancellationToken);
-        }
-    }
-
-    private static IEnumerable<string> SplitTranslationResult(TranslationResult translatedText)
-    {
-        const int maxPartLength = 4096;
-        const int maxParts = 99;
-
-        var length = translatedText.Text.Length;
-
-        if (length < maxPartLength)
-        {
-            yield return translatedText.Text;
-            yield break;
+            return;
         }
 
-        const int chunkSize = maxPartLength - 10;
-        var totalParts = Math.Min(maxParts, (int)Math.Ceiling((double)length / chunkSize));
-        for (int i = 0, c = 1; i < length && c < maxParts; i += chunkSize)
+        var message = new ReceivedMessage { ChatId = chatId, Id = messageId, Text = sourceText };
+        var result = await command.Run(cancellationToken, message);
+
+        if (result.HasError)
         {
-            yield return
-                $"[{c}/{totalParts}]\n\n{translatedText.Text.Substring(i, Math.Min(chunkSize, length - i))}";
-            c++;
+            _logger.LogDebug($"Error running command \"{command.Keyword}\": ", result.Error);
+            await _botClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: result.Error!,
+                parseMode: ParseMode.Markdown,
+                replyToMessageId: messageId,
+                allowSendingWithoutReply: true,
+                cancellationToken: cancellationToken);
+            return;
+        }
+
+        if (result.SuccessMessage is not null)
+        {
+            await _botClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: result.SuccessMessage,
+                parseMode: ParseMode.Markdown,
+                replyToMessageId: messageId,
+                allowSendingWithoutReply: true,
+                cancellationToken: cancellationToken);
         }
     }
 
