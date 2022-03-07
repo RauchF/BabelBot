@@ -1,6 +1,7 @@
 ﻿using BabelBot.Shared.Commands;
 using BabelBot.Shared.Messenger;
 using BabelBot.Shared.Options;
+using BabelBot.Shared.Storage;
 using BabelBot.Shared.Translation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -18,19 +19,22 @@ public class TelegramReceiver : IReceiver
     private readonly TelegramOptions _options;
     private readonly ITelegramBotClient _botClient;
     private readonly ICommandFactory _commandFactory;
+    public readonly IUsers _users;
 
     public TelegramReceiver(
         ILogger<TelegramReceiver> logger,
         IOptions<TelegramOptions> options,
         ITranslator translator,
         ITelegramBotClient botClient,
-        ICommandFactory commandFactory)
+        ICommandFactory commandFactory,
+        IUsers users)
     {
         _logger = logger;
         _translator = translator;
         _options = options.Value;
         _botClient = botClient;
         _commandFactory = commandFactory;
+        _users = users;
     }
 
     public Task Start(CancellationToken cts)
@@ -71,7 +75,8 @@ public class TelegramReceiver : IReceiver
 
         _logger.LogDebug("Received message update {Update} from {From} in chat {Chat}", update.Id, update.Message.From, chatId);
 
-        if (_options.OnlyReactToAllowedUsers && !_options.AllowedUsers.Contains(update.Message.From!.Id))
+        var allowedUsers = _users.GetList();
+        if (_options.OnlyReactToAllowedUsers && !allowedUsers.Contains(update.Message.From!.Id))
         {
             _logger.LogDebug("Ignored message update {Update} because sender is not in the list of AllowedUsers", update.Id);
             return;
