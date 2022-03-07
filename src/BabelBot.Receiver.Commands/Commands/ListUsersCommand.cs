@@ -19,6 +19,6 @@ public class ListUsersCommand : Command
     {
         var users = _users.GetList().Select(user => user.Id);
 
-        return Task.FromResult(new CommandResult($"Registered users: {string.Join(", ", users)}"));
+        return Task.FromResult(new CommandResult($"Registered users that can receive translations: {string.Join(", ", users)}"));
     }
 }
