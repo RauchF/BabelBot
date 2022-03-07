@@ -4,10 +4,10 @@ using BabelBot.Shared.Translation;
 
 namespace BabelBot.Receiver.Commands;
 
-public class TranslateCommand : ICommand
+public class TranslateCommand : Command
 {
-    public bool IsDefault => true;
-    public string Keyword => "";
+    public override bool IsDefault => true;
+    public override string Keyword => "";
 
     private ITranslator _translator { get; }
     private IMessenger _messenger { get; }
@@ -19,7 +19,10 @@ public class TranslateCommand : ICommand
     }
 
 
-    public async Task<CommandResult> Run(CancellationToken cancellationToken, ReceivedMessage message)
+    public override async Task<CommandResult> Run(
+        ReceivedMessage message,
+        IEnumerable<string> _arguments,
+        CancellationToken cancellationToken)
     {
         var translatedText = await _translator.TranslateAsync(message.Text, cancellationToken);
 

@@ -6,5 +6,5 @@ public interface ICommand
 {
     bool IsDefault { get; }
     string Keyword { get; }
-    Task<CommandResult> Run(CancellationToken cancellationToken, ReceivedMessage message);
+    Task<CommandResult> Run(ReceivedMessage message, CancellationToken cancellationToken);
 }

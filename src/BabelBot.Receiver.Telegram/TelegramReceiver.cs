@@ -97,7 +97,7 @@ public class TelegramReceiver : IReceiver
         }
 
         var message = new ReceivedMessage { ChatId = chatId, Id = messageId, Text = sourceText };
-        var result = await command.Run(cancellationToken, message);
+        var result = await command.Run(message, cancellationToken);
 
         if (result.HasError)
         {

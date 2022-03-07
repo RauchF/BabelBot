@@ -4,21 +4,18 @@ using BabelBot.Shared.Storage;
 
 namespace BabelBot.Receiver.Commands;
 
-public class AddUsersCommand : ICommand
+public class AddUsersCommand : Command
 {
-    public bool IsDefault => false;
-    public string Keyword => "addusers";
+    public override string Keyword => "addusers";
 
     private IUsers _users { get; }
 
     public AddUsersCommand(IUsers users) => _users = users;
 
 
-    public Task<CommandResult> Run(CancellationToken _, ReceivedMessage message)
+    public override Task<CommandResult> Run(ReceivedMessage message, IEnumerable<string> arguments, CancellationToken _)
     {
-        var ids = message.Text
-            .Split(' ')
-            .Skip(1)
+        var ids = arguments
             .Select(id => long.TryParse(id, out var parsed) ? parsed : 0)
             .Where(id => id > 0);
 

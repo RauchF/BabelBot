@@ -33,7 +33,7 @@ public class TranslateCommandTests
         _translator.TranslateAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(Task.FromResult(translation));
 
         // Act
-        await _command.Run(new CancellationToken(), message);
+        await _command.Run(message, new CancellationToken());
 
         // Assert
         await _messenger.Received(1).SendTextMessage(message.ChatId, translation.Text, message.Id);
@@ -48,7 +48,7 @@ public class TranslateCommandTests
         _translator.TranslateAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(Task.FromResult(translation));
 
         // Act
-        await _command.Run(new CancellationToken(), message);
+        await _command.Run(message, new CancellationToken());
 
         // Assert
         await _messenger.Received(1).SendTextMessage(message.ChatId, Arg.Is<string>(s => s.Length > 4000), message.Id);

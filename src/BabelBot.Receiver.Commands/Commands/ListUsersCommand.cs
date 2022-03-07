@@ -4,17 +4,16 @@ using BabelBot.Shared.Storage;
 
 namespace BabelBot.Receiver.Commands;
 
-public class ListUsersCommand : ICommand
+public class ListUsersCommand : Command
 {
-    public bool IsDefault => false;
-    public string Keyword => "listusers";
+    public override string Keyword => "listusers";
 
     private IUsers _users { get; }
 
     public ListUsersCommand(IUsers users) => _users = users;
 
 
-    public Task<CommandResult> Run(CancellationToken _token, ReceivedMessage _message)
+    public override Task<CommandResult> Run(ReceivedMessage _message, IEnumerable<string> _arguments, CancellationToken _)
     {
         var users = _users.GetList();
 
