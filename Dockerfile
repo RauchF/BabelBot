@@ -13,6 +13,9 @@ RUN dotnet restore "BabelBot.Receiver.Commands/BabelBot.Receiver.Commands.csproj
 COPY ["src/BabelBot.Translator.DeepL/BabelBot.Translator.DeepL.csproj", "BabelBot.Translator.DeepL/"]
 RUN dotnet restore "BabelBot.Translator.DeepL/BabelBot.Translator.DeepL.csproj"
 
+COPY ["src/BabelBot.Storage/BabelBot.Storage.csproj", "BabelBot.Storage/"]
+RUN dotnet restore "BabelBot.Storage/BabelBot.Storage.csproj"
+
 COPY ["src/BabelBot.Receiver.Telegram/BabelBot.Receiver.Telegram.csproj", "BabelBot.Receiver.Telegram/"]
 RUN dotnet restore "BabelBot.Receiver.Telegram/BabelBot.Receiver.Telegram.csproj"
 
@@ -22,6 +25,7 @@ RUN dotnet restore "BabelBot.Worker/BabelBot.Worker.csproj"
 COPY ["src/BabelBot.Shared/", "BabelBot.Shared/"]
 COPY ["src/BabelBot.Receiver.Commands/", "BabelBot.Receiver.Commands/"]
 COPY ["src/BabelBot.Translator.DeepL/", "BabelBot.Translator.DeepL/"]
+COPY ["src/BabelBot.Storage/", "BabelBot.Storage/"]
 COPY ["src/BabelBot.Receiver.Telegram/", "BabelBot.Receiver.Telegram/"]
 COPY ["src/BabelBot.Worker/", "BabelBot.Worker/"]
 

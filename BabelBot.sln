@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{74FB902B-8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Receiver.Commands.Tests.Unit", "tests\unit\BabelBot.Receiver.Commands.Tests.Unit\BabelBot.Receiver.Commands.Tests.Unit.csproj", "{E281779C-2656-4EED-A724-0B04F8F6D0F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelBot.Storage", "src\BabelBot.Storage\BabelBot.Storage.csproj", "{85DF5F0D-9B07-497D-9626-FE871E7D0696}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

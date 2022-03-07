@@ -20,5 +20,6 @@
         <ProjectReference Include="..\BabelBot.Shared\BabelBot.Shared.csproj" />
         <ProjectReference Include="..\BabelBot.Translator.DeepL\BabelBot.Translator.DeepL.csproj" />
         <ProjectReference Include="..\BabelBot.Receiver.Commands\BabelBot.Receiver.Commands.csproj" />
+        <ProjectReference Include="..\BabelBot.Storage\BabelBot.Storage.csproj" />
     </ItemGroup>
 </Project>

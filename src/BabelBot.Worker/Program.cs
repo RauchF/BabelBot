@@ -1,5 +1,6 @@
 using BabelBot.Receiver.Commands;
 using BabelBot.Receiver.Telegram.Extensions;
+using BabelBot.Storage;
 using BabelBot.Translator.DeepL.Extensions;
 using BabelBot.Worker.Factory;
 
@@ -31,6 +32,7 @@ class Program
                 }
 
                 services.AddCommands();
+                services.AddStorage();
 
                 services.AddSingleton<ReceiverFactory>();
                 services.AddHostedService<Worker>();
