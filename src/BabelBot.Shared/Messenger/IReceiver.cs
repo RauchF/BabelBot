@@ -1,4 +1,4 @@
-﻿namespace BabelBot.Shared;
+﻿namespace BabelBot.Shared.Messenger;
 
 public interface IReceiver
 {

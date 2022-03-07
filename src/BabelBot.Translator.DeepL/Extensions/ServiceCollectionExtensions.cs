@@ -1,4 +1,4 @@
-using BabelBot.Shared;
+using BabelBot.Shared.Translation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

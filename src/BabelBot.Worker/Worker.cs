@@ -1,5 +1,4 @@
-using System.Reflection;
-using BabelBot.Shared;
+using BabelBot.Shared.Messenger;
 using BabelBot.Worker.Factory;
 using Microsoft.Extensions.Options;
 
@@ -19,7 +18,7 @@ public class Worker : BackgroundService
         _options = options.Value;
         _receivers = receiverFactory.CreateAllConfigured();
     }
-    
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         foreach (var receiver in _receivers)
@@ -27,7 +26,7 @@ public class Worker : BackgroundService
             _logger.LogInformation("Starting receiver {Receiver}", receiver.GetType().Name);
             await receiver.Start(stoppingToken);
         }
-        
+
         while (!stoppingToken.IsCancellationRequested)
         {
             // _logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);

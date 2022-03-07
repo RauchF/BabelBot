@@ -1,3 +1,4 @@
+using BabelBot.Receiver.Commands;
 using BabelBot.Receiver.Telegram.Extensions;
 using BabelBot.Translator.DeepL.Extensions;
 using BabelBot.Worker.Factory;
@@ -9,14 +10,15 @@ class Program
     private static async Task Main(string[] args)
     {
         var builder = Host.CreateDefaultBuilder(args);
-            
+
         var host = builder.ConfigureServices((hostContext, services) =>
             {
                 var configuration = hostContext.Configuration;
                 var workerOptionsSection = configuration.GetSection(WorkerOptions.SectionKey);
                 services.Configure<WorkerOptions>(workerOptionsSection);
 
-                services.AddTelegramReceiver(configuration.GetSection("Telegram"));
+                var telegramOptions = configuration.GetSection("Telegram");
+                services.AddTelegramReceiver(telegramOptions);
 
                 var translator = workerOptionsSection.GetValue<string>("Translator");
                 switch (translator)
@@ -28,6 +30,8 @@ class Program
                         throw new ArgumentException($"Unknown translator [{translator}]");
                 }
 
+                services.AddCommands();
+
                 services.AddSingleton<ReceiverFactory>();
                 services.AddHostedService<Worker>();
             })
@@ -36,4 +40,3 @@ class Program
         await host.RunAsync();
     }
 }
-

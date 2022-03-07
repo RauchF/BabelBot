@@ -1,4 +1,4 @@
-namespace BabelBot.Shared;
+namespace BabelBot.Shared.Translation;
 
 public interface ITranslator
 {
