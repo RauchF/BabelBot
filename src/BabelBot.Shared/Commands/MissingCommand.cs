@@ -1,4 +1,5 @@
 using BabelBot.Shared.Messenger;
+using BabelBot.Shared.Storage;
 
 namespace BabelBot.Shared.Commands
 {
@@ -10,6 +11,8 @@ namespace BabelBot.Shared.Commands
         public string Keyword { get; }
 
         public bool IsDefault => false;
+
+        public IEnumerable<UserRole> AllowedRoles => Enum.GetValues<UserRole>();
 
         public MissingCommand(string keyword)
         {

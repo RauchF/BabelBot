@@ -1,6 +1,10 @@
 using BabelBot.Shared.Commands;
 using BabelBot.Shared.Messenger;
+using BabelBot.Shared.Options;
+using BabelBot.Shared.Storage;
 using BabelBot.Shared.Translation;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace BabelBot.Receiver.Commands;
 
@@ -9,13 +13,26 @@ public class TranslateCommand : Command
     public override bool IsDefault => true;
     public override string Keyword => "";
 
+    public override IEnumerable<UserRole> AllowedRoles => _telegramOptions.OnlyReactToAllowedUsers
+        ? new[] { UserRole.TranslationUser, UserRole.Superuser }
+        : Enum.GetValues<UserRole>();
+
     private ITranslator _translator { get; }
     private IMessenger _messenger { get; }
+    private readonly TelegramOptions _telegramOptions;
 
-    public TranslateCommand(ITranslator translator, IMessenger messenger)
+
+    public TranslateCommand(
+        ILogger<TranslateCommand> logger,
+        IUsers users,
+        ITranslator translator,
+        IMessenger messenger,
+        IOptions<TelegramOptions> telegramOptions)
+        : base(logger, users)
     {
         _translator = translator;
         _messenger = messenger;
+        _telegramOptions = telegramOptions.Value;
     }
 
 

@@ -19,22 +19,19 @@ public class TelegramReceiver : IReceiver
     private readonly TelegramOptions _options;
     private readonly ITelegramBotClient _botClient;
     private readonly ICommandFactory _commandFactory;
-    public readonly IUsers _users;
 
     public TelegramReceiver(
         ILogger<TelegramReceiver> logger,
         IOptions<TelegramOptions> options,
         ITranslator translator,
         ITelegramBotClient botClient,
-        ICommandFactory commandFactory,
-        IUsers users)
+        ICommandFactory commandFactory)
     {
         _logger = logger;
         _translator = translator;
         _options = options.Value;
         _botClient = botClient;
         _commandFactory = commandFactory;
-        _users = users;
     }
 
     public Task Start(CancellationToken cts)
@@ -75,13 +72,6 @@ public class TelegramReceiver : IReceiver
 
         _logger.LogDebug("Received message update {Update} from {From} in chat {Chat}", update.Id, update.Message.From, chatId);
 
-        var allowedUsers = _users.GetList();
-        if (_options.OnlyReactToAllowedUsers && !allowedUsers.Contains(update.Message.From!.Id))
-        {
-            _logger.LogDebug("Ignored message update {Update} because sender is not in the list of AllowedUsers", update.Id);
-            return;
-        }
-
         var command = _commandFactory.GetCommand(sourceText);
         if (command is MissingCommand)
         {
@@ -96,7 +86,7 @@ public class TelegramReceiver : IReceiver
             return;
         }
 
-        var message = new ReceivedMessage { ChatId = chatId, Id = messageId, Text = sourceText };
+        var message = new ReceivedMessage { ChatId = chatId, Id = messageId, UserId = update.Message?.From?.Id, Text = sourceText };
         var result = await command.Run(message, cancellationToken);
 
         if (result.HasError)
