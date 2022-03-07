@@ -12,6 +12,8 @@ public class ListUsersCommand : Command
     }
 
     public override string Keyword => "listusers";
+    public override string Description =>
+        $@"List users who BabelBot translates for: ""/{Keyword}"".";
 
     public override IEnumerable<UserRole> AllowedRoles => new[] { UserRole.Superuser };
 

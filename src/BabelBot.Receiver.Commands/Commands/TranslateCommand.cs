@@ -11,7 +11,8 @@ namespace BabelBot.Receiver.Commands;
 public class TranslateCommand : Command
 {
     public override bool IsDefault => true;
-    public override string Keyword => "";
+    public override string Keyword => string.Empty;
+    public override string Description => string.Empty;
 
     public override IEnumerable<UserRole> AllowedRoles => _telegramOptions.OnlyReactToAllowedUsers
         ? new[] { UserRole.TranslationUser, UserRole.Superuser }
