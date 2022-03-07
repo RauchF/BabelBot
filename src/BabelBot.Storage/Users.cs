@@ -27,4 +27,9 @@ public class Users : IUsers
     {
         UserIds.AddRange(ids);
     }
+
+    public void DeleteUsers(IEnumerable<long> ids)
+    {
+        UserIds.RemoveAll(id => ids.Contains(id));
+    }
 }
