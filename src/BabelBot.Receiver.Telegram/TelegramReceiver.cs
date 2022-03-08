@@ -56,7 +56,7 @@ public class TelegramReceiver : IReceiver
 
         var sourceText = update.Message.Text ?? update.Message.Caption;
 
-        if (sourceText is null)
+        if (sourceText is null or "")
         {
             _logger.LogDebug("Received Message of type {Type} which does not contain text or a caption", update.Message.Type);
             return;
@@ -64,11 +64,6 @@ public class TelegramReceiver : IReceiver
 
         var chatId = update.Message.Chat.Id;
         var messageId = update.Message.MessageId;
-
-        if (sourceText is null or "")
-        {
-            return;
-        }
 
         _logger.LogDebug("Received message update {Update} from {From} in chat {Chat}", update.Id, update.Message.From, chatId);
 
