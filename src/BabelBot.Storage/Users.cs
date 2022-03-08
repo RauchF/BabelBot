@@ -6,38 +6,38 @@ namespace BabelBot.Storage;
 
 public class Users : IUsers
 {
-    private List<User> UserStorage = new();
+    private List<User> _userStorage = new();
 
     public Users(IOptions<TelegramOptions> telegramOptions)
     {
         var superusers = telegramOptions.Value.AllowedUsers
             .Select(id => new User { Id = id, Role = UserRole.Superuser });
-        UserStorage.AddRange(superusers);
+        _userStorage.AddRange(superusers);
     }
 
     public IEnumerable<User> GetList()
     {
-        return UserStorage.AsEnumerable();
+        return _userStorage.AsEnumerable();
     }
 
     public IEnumerable<User> GetList(Func<User, bool> predicate)
     {
-        return UserStorage.Where(predicate).AsEnumerable();
+        return _userStorage.Where(predicate).AsEnumerable();
     }
 
     public User? GetUser(long id)
     {
-        return UserStorage.FirstOrDefault(user => user.Id == id);
+        return _userStorage.FirstOrDefault(user => user.Id == id);
     }
 
     public void AddTranslationUsers(IEnumerable<long> ids)
     {
         var users = ids.Select(id => new User { Id = id, Role = UserRole.TranslationUser });
-        UserStorage.AddRange(users);
+        _userStorage.AddRange(users);
     }
 
     public void DeleteTranslationUsers(IEnumerable<long> ids)
     {
-        UserStorage.RemoveAll(user => ids.Contains(user.Id));
+        _userStorage.RemoveAll(user => ids.Contains(user.Id));
     }
 }

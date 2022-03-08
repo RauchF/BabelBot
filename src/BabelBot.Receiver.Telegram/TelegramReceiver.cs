@@ -1,7 +1,6 @@
 ﻿using BabelBot.Shared.Commands;
 using BabelBot.Shared.Messenger;
 using BabelBot.Shared.Options;
-using BabelBot.Shared.Storage;
 using BabelBot.Shared.Translation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

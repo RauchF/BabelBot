@@ -18,17 +18,14 @@ public class DeleteUsersCommandTests
 {
     private DeleteUsersCommand _command = null!;
     private IUsers _users = null!;
-    private TelegramOptions _options = new TelegramOptions { };
 
     [TestInitialize]
     public void Initialize()
     {
         var logger = Substitute.For<ILogger<DeleteUsersCommand>>();
         _users = Substitute.For<IUsers>();
-        var options = Substitute.For<IOptions<TelegramOptions>>();
-        options.Value.Returns(_options);
 
-        _command = new(logger, _users, options);
+        _command = new(logger, _users);
     }
 
     [TestMethod]
