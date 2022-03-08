@@ -3,6 +3,7 @@ using BabelBot.Shared.Messenger;
 using BabelBot.Shared.Options;
 using BabelBot.Shared.Storage;
 using BabelBot.Shared.Translation;
+using BabelBot.Shared.Translation.Exceptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -39,12 +40,20 @@ public class TranslateCommand : Command
 
     public override async Task<CommandResult> Run(
         ReceivedMessage message,
-        IEnumerable<string> _arguments,
+        IEnumerable<string> commandArguments,
         CancellationToken cancellationToken)
     {
-        var translatedText = await _translator.TranslateAsync(message.Text, cancellationToken);
+        TranslationResult translationResult;
+        try
+        {
+            translationResult = await _translator.TranslateAsync(message.Text, cancellationToken);
+        }
+        catch (TranslationFailedException e)
+        {
+            return new CommandResult($"An error occurred while translating:\n{e.Message}");
+        }
 
-        foreach (var part in SplitTranslationResult(translatedText))
+        foreach (var part in SplitTranslationResult(translationResult))
         {
             await _messenger.SendTextMessage(
                 chatId: message.ChatId,

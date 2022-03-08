@@ -4,10 +4,12 @@ using BabelBot.Shared.Messenger;
 using BabelBot.Shared.Options;
 using BabelBot.Shared.Storage;
 using BabelBot.Shared.Translation;
+using BabelBot.Shared.Translation.Exceptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace BabelBot.Receiver.Commands.Tests.Unit;
 
@@ -64,5 +66,21 @@ public class TranslateCommandTests
         // Assert
         await _messenger.Received(1).SendTextMessage(message.ChatId, Arg.Is<string>(s => s.Length > 4000), message.Id);
         await _messenger.Received(1).SendTextMessage(message.ChatId, Arg.Is<string>(s => s.Length < 4000), message.Id);
+    }
+
+    [TestMethod]
+    public async Task Run_ReturnsCommandResultWithError_WhenTranslationFails()
+    {
+        // Arrange
+        var message = new ReceivedMessage() { Id = 42, Text = "some text", ChatId = 42, UserId = 1 };
+        _translator.TranslateAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Throws(_ => throw new TranslationFailedException("some error"));
+
+        // Act
+        var commandResult = await _command.Run(message, new CancellationToken());
+
+        // Assert
+        Assert.IsTrue(commandResult.HasError);
+        Assert.IsTrue(commandResult.Error!.Contains("some error"));
     }
 }

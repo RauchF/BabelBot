@@ -64,7 +64,7 @@ public class TelegramReceiver : IReceiver
         var sourceText = update.Message.Text;
         var messageId = update.Message.MessageId;
 
-        if (sourceText is null)
+        if (sourceText is null or "")
         {
             return;
         }

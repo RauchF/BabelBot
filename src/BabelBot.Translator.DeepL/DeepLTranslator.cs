@@ -1,5 +1,7 @@
 ﻿using BabelBot.Shared.Translation;
+using BabelBot.Shared.Translation.Exceptions;
 using DeepL;
+using DeepL.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -22,8 +24,26 @@ public class DeepLTranslator : ITranslator
     public async Task<TranslationResult> TranslateAsync(string text, TranslationContext context, CancellationToken cancellationToken)
     {
         _logger.LogDebug("Translating message of length {Length} from {SourceLanguage} to {TargetLanguage}", text.Length, context.SourceLanguage, context.TargetLanguage);
-        var translation = await _translator.TranslateTextAsync(text, context.SourceLanguage, context.TargetLanguage ?? LanguageCode.EnglishBritish,
-            null, cancellationToken);
+
+        TextResult translation;
+        try
+        {
+            translation = await _translator.TranslateTextAsync(text,
+                context.SourceLanguage,
+                context.TargetLanguage ?? LanguageCode.EnglishBritish,
+                cancellationToken: cancellationToken);
+        }
+        catch (TooManyRequestsException e)
+        {
+            _logger.LogInformation("DeepL API is busy: {}", e);
+            throw new TranslationFailedException("The DeepL API is busy. Please try again shortly.");
+        }
+        // All of the exceptions that can "normally" occur within the DeepL.net package inherit DeepLException
+        catch (DeepLException e)
+        {
+            _logger.LogError("DeepL API threw {}", e);
+            throw new TranslationFailedException("The DeepL API returned an error. Further details have been logged.");
+        }
 
         return new TranslationResult()
         {
