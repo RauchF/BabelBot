@@ -54,14 +54,15 @@ public class TelegramReceiver : IReceiver
             return;
         }
 
-        if (update.Message!.Type != MessageType.Text)
+        var sourceText = update.Message.Text ?? update.Message.Caption;
+
+        if (sourceText is null)
         {
-            _logger.LogInformation("Received Message of unhandled type {Type}", update.Message.Type);
+            _logger.LogDebug("Received Message of type {Type} which does not contain text or a caption", update.Message.Type);
             return;
         }
 
         var chatId = update.Message.Chat.Id;
-        var sourceText = update.Message.Text;
         var messageId = update.Message.MessageId;
 
         if (sourceText is null or "")
