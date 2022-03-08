@@ -1,24 +1,13 @@
 using BabelBot.Shared.Commands;
 using BabelBot.Shared.Messenger;
-using BabelBot.Shared.Options;
 using BabelBot.Shared.Storage;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace BabelBot.Receiver.Commands;
 
 public class DeleteUsersCommand : Command
 {
-    private readonly TelegramOptions _telegramOptions;
-
-    public DeleteUsersCommand(
-        ILogger<DeleteUsersCommand> logger,
-        IUsers users,
-        IOptions<TelegramOptions> telegramOptions)
-        : base(logger, users)
-    {
-        _telegramOptions = telegramOptions.Value;
-    }
+    public DeleteUsersCommand(ILogger<DeleteUsersCommand> logger, IUsers users) : base(logger, users) { }
 
     public override string Keyword => "deleteusers";
     public override string Description =>
