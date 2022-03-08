@@ -58,6 +58,7 @@ public class TranslateCommand : Command
 
     private static IEnumerable<string> SplitTranslationResult(TranslationResult translatedText)
     {
+        // FIXME: 4096 is the maximum length for Telegram messages and should not be set here
         const int maxPartLength = 4096;
         const int maxParts = 99;
 
