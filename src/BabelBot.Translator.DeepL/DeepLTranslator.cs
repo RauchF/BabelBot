@@ -14,11 +14,14 @@ public class DeepLTranslator : ITranslator
 
     private readonly global::DeepL.Translator _translator;
 
-    public DeepLTranslator(ILogger<DeepLTranslator> logger, IOptions<DeepLTranslatorOptions> options)
+    public DeepLTranslator(
+        ILogger<DeepLTranslator> logger,
+        IOptions<DeepLTranslatorOptions> options,
+        global::DeepL.Translator translator)
     {
         _logger = logger;
         _options = options.Value;
-        _translator = new global::DeepL.Translator(_options.AuthKey);
+        _translator = translator;
     }
 
     public async Task<TranslationResult> TranslateAsync(string text, TranslationContext context, CancellationToken cancellationToken)
